@@ -1,5 +1,5 @@
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL']='2'  # kill warning about tensorflow
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # kill warning about tensorflow
 import tensorflow as tf
 import numpy as np
 import sys
@@ -11,6 +11,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import plot_model
 from tensorflow.keras.models import load_model
 
+from tensorflow.keras.losses import MeanSquaredError
 
 class TrainModel:
     def __init__(self, num_layers, width, batch_size, learning_rate, input_dim, output_dim):
@@ -32,7 +33,8 @@ class TrainModel:
         outputs = layers.Dense(self._output_dim, activation='linear')(x)
 
         model = keras.Model(inputs=inputs, outputs=outputs, name='my_model')
-        model.compile(loss=losses.mean_squared_error, optimizer=Adam(lr=self._learning_rate))
+        model.compile(loss=MeanSquaredError(), optimizer=Adam(learning_rate=self._learning_rate))
+
         return model
     
 
@@ -40,7 +42,7 @@ class TrainModel:
         """
         Predict the action values from a single state
         """
-        state = np.reshape(state, [1, self._input_dim])
+        state = np.reshape(state, [1, self._input_dim])  # Ensure it's a 2D array with batch size of 1
         return self._model.predict(state)
 
 
@@ -48,6 +50,14 @@ class TrainModel:
         """
         Predict the action values from a batch of states
         """
+        states = np.array(states)
+        # Ensure the states are in the correct shape for prediction
+        if len(states.shape) == 1:
+            states = np.reshape(states, [1, self._input_dim])  # Reshape single sample to 2D
+        elif len(states.shape) == 2 and states.shape[1] != self._input_dim:
+            raise ValueError(f"Expected input shape: ({None}, {self._input_dim}), but got: {states.shape}")
+        
+        print(f"States shape for prediction: {states.shape}")
         return self._model.predict(states)
 
 
@@ -104,7 +114,7 @@ class TestModel:
         """
         Predict the action values from a single state
         """
-        state = np.reshape(state, [1, self._input_dim])
+        state = np.reshape(state, [1, self._input_dim])  # Ensure it's a 2D array with batch size of 1
         return self._model.predict(state)
 
 

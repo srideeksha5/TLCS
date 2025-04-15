@@ -108,33 +108,5 @@ The settings used during the testing and contained in the file **testing_setting
 - **Reward**: change in *cumulative waiting time* between actions, where the waiting time of a car is the number of seconds spent with speed=0 since the spawn; *cumulative* means that every waiting time of every car located in an incoming lane is summed. When a car leaves an oncoming lane (i.e. crossed the intersection), its waiting time is no longer counted. Therefore this translates to a positive reward for the agent.
 - **Learning mechanism**: the agent make use of the Q-learning equation *Q(s,a) = reward + gamma • max Q'(s',a')* to update the action values and a deep neural network to learn the state-action function. The neural network is fully connected with 80 neurons as input (the state), 5 hidden layers of 400 neurons each, and the output layers with 4 neurons representing the 4 possible actions. Also, an experience replay mechanism is implemented: the experience of the agent is stored in a memory and, at the end of each episode, multiple batches of randomized samples are extracted from the memory and used to train the neural network, once the action values have been updated with the Q-learning equation.
 
-## *Changelog - New version, updated on 12 Jan 2020*
 
-- *Each training result is now stored in a folder structure, with each result being numbered with an increasing integer.*
-- *New Test Mode: test the model versions you created by running a test episode with comparable results.*
-- *Enabled a dynamic creation of the model by specifying, for each training, the width and the depth of the feedforward neural network that will be used.*
-- *The neural network training is now executed at the end of each episode, instead of during the episode. This improves the overall speed of the algorithm.*
-- *The code for the neural network is now written using Keras and Tensorflow 2.0.*
-- *Added a settings file (.ini) for both training and testing.*
-- *Added a minimum number of samples required into the memory to begin training.*
-- *Improved code readability.*
-
-## Author
-
-* **Andrea Vidali** - *University of Milano-Bicocca*
-
-If you need further information about the algorithm, I suggest you open an issue on the issues page.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Buy me a coffee!
-
-Hi 👋 My name is Andrea.
-
-If this repo helped you in some way and you want to say thanks, consider buying me a coffee!
-
-<a href="https://www.buymeacoffee.com/andreavidali" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
- 
 
